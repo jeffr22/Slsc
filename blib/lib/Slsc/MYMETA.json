@@ -4,7 +4,7 @@
       "Catalyst developer"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Install version 1.21, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "ExtUtils::MakeMaker version 7.62, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -15,8 +15,8 @@
    "name" : "Slsc",
    "no_index" : {
       "directory" : [
-         "inc",
-         "t"
+         "t",
+         "inc"
       ]
    },
    "prereqs" : {
@@ -44,11 +44,6 @@
       }
    },
    "release_status" : "stable",
-   "resources" : {
-      "license" : [
-         "http://dev.perl.org/licenses/"
-      ]
-   },
    "version" : "0.01",
    "x_serialization_backend" : "JSON::PP version 4.06"
 }

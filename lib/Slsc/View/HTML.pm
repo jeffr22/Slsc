@@ -5,7 +5,15 @@ use namespace::autoclean;
 extends 'Catalyst::View::TT';
 
 __PACKAGE__->config(
-    TEMPLATE_EXTENSION => '.tt',
+    INCLUDE_PATH => [
+        Slsc->path_to( 'root', 'src' ),
+        Slsc->path_to( 'root', 'lib' )
+    ],
+    PRE_PROCESS  => 'config/main',
+    WRAPPER      => 'site/wrapper',
+    ERROR        => 'error.tt2',
+    TIMER        => 0,
+    TEMPLATE_EXTENSION => '.tt2',
     render_die => 1,
 );
 

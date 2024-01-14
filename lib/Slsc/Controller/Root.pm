@@ -6,6 +6,7 @@ use Moose;
 use namespace::autoclean;
 
 use DBI;
+use JSON;
 use DbUtils;
 
 use Data::Dumper;
@@ -60,7 +61,9 @@ sub index :Path :Args(0) {
     $rv = $dbh->selectall_arrayref($sql);
 
     # Hello World
-    $c->response->body(Dumper($rv));
+    # $c->response->body(Dumper($rv));
+    $c->stash->{table_json} = to_json($rv);
+    $c->stash->{template} = 'staffing.tt2';
 }
 
 =head2 default

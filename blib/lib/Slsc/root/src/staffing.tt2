@@ -1,0 +1,35 @@
+<div id="staffing">
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Captain</th>
+            <th>Assistant</th>
+            <th>SafetyBoat 1A</th>
+            <th>SafetyBoat 1B</th>
+            <th>SafetyBoat 2A</th>
+            <th>SafetyBoat 2B</th>
+        </tr>
+    </thead>
+    <tbody data-bind="'foreach: aRcCrews">
+        <tr>
+            <td><span data-bind="text: $data.date"</td>
+            <td><span data-bind="text: $data.captain.name"</td>
+            <td><span data-bind="text: $data.assistant.name"</td>
+            <td><span data-bind="text: $data.sb1_1.name"</td>
+            <td><span data-bind="text: $data.sb1_2.name"</td>
+            <td><span data-bind="text: $data.sb2_1.name"</td>
+            <td><span data-bind="text: $data.sb2_2.name"</td>
+        </tr>
+
+    </tbody>
+</table>
+
+</div>
+
+<script type=""text/javascript">
+    function loaded(){
+        staffingViewModel = new rcCrewGrid("[%table_son%]");
+        ko.applyBindings(staffingViewModel);
+    }
+</script>

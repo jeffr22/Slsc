@@ -1,0 +1,37 @@
+<div id="staffing">
+<table border="1">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Captain</th>
+            <th>Assistant</th>
+            <th>SafetyBoat 1A</th>
+            <th>SafetyBoat 1B</th>
+            <th>SafetyBoat 2A</th>
+            <th>SafetyBoat 2B</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: aRcCrews">
+        <tr>
+            <td><span data-bind="text: date"></span></td>
+            <td><span data-bind="text: captain.name"</td>
+            <td><span data-bind="text: assistant.name"</td>
+            <td><span data-bind="text: sb1_1.name"</td>
+            <td><span data-bind="text: sb1_2.name"</td>
+            <td><span data-bind="text: sb2_1.name"</td>
+            <td><span data-bind="text: sb2_2.name"</td>
+
+        </tr>
+
+    </tbody>
+</table>
+
+</div>
+<script src="/static/js/rcCrewObj.js" type="text/javascript"></script>
+<script src="/static/js/rcCrewGrid.js" type="text/javascript"></script>
+<script type=""text/javascript">
+    function loaded(){
+        rcCrewViewModel = new RcCrewGrid('[%table_json%]');
+        ko.applyBindings(rcCrewViewModel);
+    }
+</script>

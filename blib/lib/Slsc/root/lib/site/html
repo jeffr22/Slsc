@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Race Committee</title>
+
+            <!-- <link rel="stylesheet" href="/static/css/flick/jquery-ui.min.css" type="text/css" media="all" />
+            <link rel="stylesheet" href="/static/css/datatables.css" type="text/css" media="all"> -->
+
+            <script type="text/javascript" src="/static/minjs/knockout-3.5.1.js"></script>
+            <script type="text/javascript" src="/static/minjs/knockout.mapping.js"></script>
+            <!-- <script type="text/javascript" src="/static/minjs/datatables.js"></script> -->
+        </head>
+    <body onload="loaded()">
+        [% content %]
+    </body>
+</html>
+
+

@@ -24,9 +24,9 @@
 #     TEST_REQUIRES => {  }
 #     VERSION => q[0.01]
 #     VERSION_FROM => q[lib/Slsc.pm]
-#     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
+#     dist => {  }
 #     realclean => { FILES=>q[MYMETA.yml] }
-#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t] }
+#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t t/controller_Root.t t/view_HTML.t] }
 
 # --- MakeMaker post_initialize section:
 
@@ -178,7 +178,8 @@ MAN1PODS = script/slsc_cgi.pl \
 	script/slsc_server.pl \
 	script/slsc_test.pl
 MAN3PODS = lib/Slsc.pm \
-	lib/Slsc/Controller/Root.pm
+	lib/Slsc/Controller/Root.pm \
+	lib/Slsc/View/HTML.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIBDEP)$(DFSEP)Config.pm $(PERL_INCDEP)$(DFSEP)config.h
@@ -202,7 +203,8 @@ PERL_ARCHIVE_AFTER =
 
 
 TO_INST_PM = lib/Slsc.pm \
-	lib/Slsc/Controller/Root.pm
+	lib/Slsc/Controller/Root.pm \
+	lib/Slsc/View/HTML.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -264,7 +266,7 @@ ZIPFLAGS = -r
 COMPRESS = gzip --best
 SUFFIX = .gz
 SHAR = shar
-PREOP = $(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"
+PREOP = $(NOECHO) $(NOOP)
 POSTOP = $(NOECHO) $(NOOP)
 TO_UNIX = $(NOECHO) $(NOOP)
 CI = ci -u
@@ -429,6 +431,7 @@ POD2MAN = $(POD2MAN_EXE)
 manifypods : pure_all config  \
 	lib/Slsc.pm \
 	lib/Slsc/Controller/Root.pm \
+	lib/Slsc/View/HTML.pm \
 	script/slsc_cgi.pl \
 	script/slsc_create.pl \
 	script/slsc_fastcgi.pl \
@@ -442,7 +445,8 @@ manifypods : pure_all config  \
 	  script/slsc_test.pl $(INST_MAN1DIR)/slsc_test.pl.$(MAN1EXT) 
 	$(NOECHO) $(POD2MAN) --section=$(MAN3EXT) --perm_rw=$(PERM_RW) -u \
 	  lib/Slsc.pm $(INST_MAN3DIR)/Slsc.$(MAN3EXT) \
-	  lib/Slsc/Controller/Root.pm $(INST_MAN3DIR)/Slsc::Controller::Root.$(MAN3EXT) 
+	  lib/Slsc/Controller/Root.pm $(INST_MAN3DIR)/Slsc::Controller::Root.$(MAN3EXT) \
+	  lib/Slsc/View/HTML.pm $(INST_MAN3DIR)/Slsc::View::HTML.$(MAN3EXT) 
 
 
 
@@ -799,7 +803,7 @@ $(MAKE_APERL_FILE) : static $(FIRST_MAKEFILE) pm_to_blib
 TEST_VERBOSE=0
 TEST_TYPE=test_$(LINKTYPE)
 TEST_FILE = test.pl
-TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t
+TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t t/controller_Root.t t/view_HTML.t
 TESTDB_SW = -d
 
 testdb :: testdb_$(LINKTYPE)
@@ -855,7 +859,8 @@ ppd :
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  'lib/Slsc.pm' 'blib/lib/Slsc.pm' \
-	  'lib/Slsc/Controller/Root.pm' 'blib/lib/Slsc/Controller/Root.pm' 
+	  'lib/Slsc/Controller/Root.pm' 'blib/lib/Slsc/Controller/Root.pm' \
+	  'lib/Slsc/View/HTML.pm' 'blib/lib/Slsc/View/HTML.pm' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
@@ -879,25 +884,6 @@ config ::
 
 # End.
 # Postamble by Module::Install 1.21
-# --- Module::Install::Admin::Makefile section:
-
-realclean purge ::
-	$(RM_F) $(DISTVNAME).tar$(SUFFIX)
-	$(RM_F) MANIFEST.bak _build
-	$(PERL) "-Ilib" "-MModule::Install::Admin" -e "remove_meta()"
-	$(RM_RF) inc
-
-reset :: purge
-
-upload :: test dist
-	cpan-upload -verbose $(DISTVNAME).tar$(SUFFIX)
-
-grok ::
-	perldoc Module::Install
-
-distsign ::
-	cpansign -s
-
 # --- Module::Install::AutoInstall section:
 
 config :: installdeps
