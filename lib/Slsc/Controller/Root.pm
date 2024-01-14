@@ -1,6 +1,15 @@
 package Slsc::Controller::Root;
+use strict;
+use lib qw(/home/btcat/Slsc/modules);
+
 use Moose;
 use namespace::autoclean;
+
+use DBI;
+use DbUtils;
+
+use Data::Dumper;
+
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -31,8 +40,27 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
+    #create a handle to MySQL
+    my $dbInfo = {
+        'dbname'=>'Slsc',
+        'url' => $c->config->{dbURL},
+        'user' => $c->config->{dbUser},
+        'pw' => $c->config->{dbPW}
+    };
+# $DB::single=1;
+    my $rv = DbUtils::dbConnect($dbInfo);
+    if($rv->{exitCode} == 1){
+        return;
+    }
+    my $dbh;
+    $c->stash->{dbh}=$dbh=$rv->{dbh};
+
+    #Envoke the HTML template that will display the current staffing chart.
+    my $sql = 'SELECT * FROM Slsc.staffing';
+    $rv = $dbh->selectall_arrayref($sql);
+
     # Hello World
-    $c->response->body( $c->welcome_message );
+    $c->response->body(Dumper($rv));
 }
 
 =head2 default
