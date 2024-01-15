@@ -20,6 +20,7 @@ function RcCrewGrid(staffJson) {
     self.editCapt = function(row,evt){
         console.log("Captain on %s",row.date);
         self.position="Captain";
+        self.sqlcol='rc_';
         self.date=row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -27,6 +28,7 @@ function RcCrewGrid(staffJson) {
     self.editAsst = function (row, evt) {
         console.log("Asst on %s", row.date);
         self.position = "Assistant";
+        self.sqlcol = 'ac_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -34,6 +36,7 @@ function RcCrewGrid(staffJson) {
     self.editS11 = function (row, evt) {
         console.log("S11 on %s", row.date);
         self.position = "Safety Boat 1A";
+        self.sqlcol = 's1_1_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -41,6 +44,7 @@ function RcCrewGrid(staffJson) {
     self.editS12 = function (row, evt) {
         console.log("S12 on %s", row.date);
         self.position = "SBoat 1B";
+        self.sqlcol = 's1_2_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -48,6 +52,7 @@ function RcCrewGrid(staffJson) {
     self.editS21 = function (row, evt) {
         console.log("S21 on %s", row.date);
         self.position = "SBoat 2A";
+        self.sqlcol = 's2_1_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -55,6 +60,7 @@ function RcCrewGrid(staffJson) {
     self.editS22 = function (row, evt) {
         console.log("S22 on %s", row.date);
         self.position = "SBoat 2B";
+        self.sqlcol = 's2_2_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
@@ -62,10 +68,31 @@ function RcCrewGrid(staffJson) {
 
     self.formSave = function(a,b){
         $('#myModal').hide();
+        let ymd = self.dateToYMD(a.date);
+        let namecol = self.sqlcol+'name';
+        let emailcol = self.sqlcol+'email';
+        let sql = 'INSERT INTO Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
+        console.log(sql);
     }
 
     self.formCancel = function (a, b) {
         $('#myModal').hide();
+    }
+
+    //Convert Wed May 8 => 2024-05-08
+    self.dateToYMD = function(formattedDate) {
+        const monthsMap = {
+            'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+            'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+            'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+        };
+
+        const [weekday, monthAbbreviation, day] = formattedDate.split(' ');
+        const month = monthsMap[monthAbbreviation];
+        const year = new Date().getFullYear(); // Assuming current year, you may adjust this based on your requirement
+
+        const parsedDate = `${year}-${month}-${day}`;
+        return parsedDate;
     }
 }
 
