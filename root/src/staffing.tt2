@@ -1,94 +1,93 @@
 <style>
-    td{
-        class:"text-center";
+    td {
+        class: "text-center";
     }
 </style>
 
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1>SLSC Race Committee Assignments for 2024</h1>
-            <p>Click on any open cell and use the popup form to enter your name and email. Once you have saved the data is cannot be changed.<br />
+            <h1>SLSC Race Committee Sign Up Sheet for 2024</h1>
+            <p>Click on any button and use the popup form to enter your name and email.
+                Once you have saved the data it cannot be changed.<br />
                 If you need help contact jeff@sailsaratoga.org</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                Book Date
-            </button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12"></div>
-        <table class="table table-primary table-striped">
-            <colgroup>
-                <col width="*"/>
-                <col width="14%"/>
-                <col width="14%"/>
-                <col width="14%"/>
-                <col width="14%"/>
-                <col width="14%"/>
-                <col width="14%"/>
-            </colgroup>
-            <thead>
-                <tr>
-                    <th  class="text-center">Date</th>
-                    <th  class="text-center">Captain</th>
-                    <th  class="text-center">Assistant</th>
-                    <th  class="text-center">SafetyBoat 1A</th>
-                    <th  class="text-center">SafetyBoat 1B</th>
-                    <th  class="text-center">SafetyBoat 2A</th>
-                    <th  class="text-center">SafetyBoat 2B</th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: aRcCrews">
-                <tr>
-                    <td  class="text-center"><span style="font-weight:bold" data-bind="text: date"></span></td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt" </td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst"  </td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11"  </td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12"  </td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21"  </td>
-                    <td  class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22"  </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Make a Booking</h4>
-                    <button type="button" class="Enter" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" data-bind="text:title"> </h4>
+                        <button type="button" class="Enter" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <table class="table table-primary table-striped">
+                            <tr>
+                                <td><input class="form-control" type="text" data-bind="textInput: username" placeholder="Enter Name"></td>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control" type="text" data-bind="textInput: useremail" placeholder="Enter Email"></td>
+                            </tr>
+                            <!-- <tr>
+                                <td>Pin</td>
+                                <td><input type="text"></td>
+                            </tr> -->
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bind="click:formSave">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bind="click:formCancel">Cancel</button>
+                    </div>
+
                 </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <table class=""table">
-                    <tr><td>Date</td><td><input type="text"></td></tr>
-                    <tr><td>Job</td><td><select>
-                        <option>Captain</option>
-                        <option>Assistant</option>
-                        <option>SB 1A</option>
-                        <option>SB 1B</option>
-                    </select></tr>
-                    <tr><td>Name</td><td><input type="text"></td></tr>
-                    <tr><td>Email</td><td><input type="text"></td></tr>
-                    <tr><td>Pin</td><td><input type="text"></td></tr>
-                    </table>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12"></div>
+            <table class="table table-primary table-striped">
+                <colgroup>
+                    <col width="*" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Captain</th>
+                        <th class="text-center">Assistant</th>
+                        <th class="text-center">Safety Boat 1A</th>
+                        <th class="text-center">Safety Boat 1B</th>
+                        <th class="text-center">Safety Boat 2A</th>
+                        <th class="text-center">Safety Boat 2B</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: aRcCrews">
+                    <tr>
+                        <td class="text-center"><span style="font-weight:bold" data-bind="text: date"></span></td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt" </td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst" </td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11" </td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12" </td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21" </td>
+                        <td class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22" </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
 </div>
 
