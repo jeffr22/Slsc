@@ -76,20 +76,71 @@
                 <tbody data-bind="foreach: aRcCrews">
                     <tr>
                         <td class="text-center"><span style="font-weight:bold" data-bind="text: date"></span></td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt" </td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst" </td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11" </td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12" </td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21" </td>
-                        <td class="text-center"><img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22" </td>
+                        <td class="text-center">
+                            <!-- ko if: captain.name().length > 4 -->
+                            <span data-bind="text:captain.name() + '\n' + captain.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: captain.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
+                            <!-- /ko -->
+                        </td>
+                        <td class="text-center">
+                            <!-- ko if: assistant.name().length > 4 -->
+                            <span data-bind="text:assistant.name() + '\n' + assistant.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: assistant.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
+                            <!-- /ko -->
+                        </td>
+                        <td class="text-center">
+                            <!-- ko if: sb1_1.name().length > 4 -->
+                            <span data-bind="text:sb1_1.name() + '\n' + sb1_1.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: sb1_1.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11">
+                            <!-- /ko -->
+                        </td>
+                        <td class="text-center">
+                            <!-- ko if: sb1_2.name().length > 4 -->
+                            <span data-bind="text:sb1_2.name() + '\n' + sb1_2.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: sb1_2.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
+                            <!-- /ko -->
+                        </td>
+                        <td class="text-center">
+                            <!-- ko if: sb2_1.name().length > 4 -->
+                            <span data-bind="text:sb2_1.name() + '\n' + sb2_1.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: sb2_1.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
+                            <!-- /ko -->
+                        </td>
+                        <td class="text-center">
+                            <!-- ko if: sb2_2.name().length > 4 -->
+                            <span data-bind="text:sb2_2.name() + '\n' + sb2_2.email()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: sb2_2.name().length <= 4 -->
+                            <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22">
+                            <!-- /ko -->
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
+
+<!-- <script id="captain-template" type="text/html">
+    <td class="text-center">
+        <!-- ko if: captain.name.length > 4 -->
+        <span data-bind="text:captain.name"></span>
+        <!-- /ko -->
+        <!-- ko if: captain.name.length <= 4 -->
+        <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
+        <!-- /ko -->
+    </td>
+</script> -->
 
 
 <script src="/static/js/rcCrewObj.js" type="text/javascript"></script>
