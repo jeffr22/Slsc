@@ -48,13 +48,13 @@ sub index :Path :Args(0) {
         'user' => $c->config->{dbUser},
         'pw' => $c->config->{dbPW}
     };
-# $DB::single=1;
+
     my $rv = DbUtils::dbConnect($dbInfo);
     if($rv->{exitCode} == 1){
         return;
     }
     my $dbh;
-    $c->stash->{dbh}=$dbh=$rv->{dbh};
+    $dbh=$rv->{dbh};
 
     #Envoke the HTML template that will display the current staffing chart.
     my $sql = 'SELECT * FROM Slsc.staffing';
@@ -65,6 +65,31 @@ sub index :Path :Args(0) {
     $c->stash->{table_json} = to_json($rv);
     $c->stash->{template} = 'staffing.tt2';
 }
+
+sub update :Local {
+    my ( $self, $c ) = @_;
+    my $sql = $c->request->parameters->{query};
+    $c->log->debug("Received => $sql\n");
+
+    #create a handle to MySQL
+    my $dbInfo = {
+        'dbname'=>'Slsc',
+        'url' => $c->config->{dbURL},
+        'user' => $c->config->{dbUser},
+        'pw' => $c->config->{dbPW}
+    };
+
+    my $rv = DbUtils::dbConnect($dbInfo);
+    if($rv->{exitCode} == 1){
+        return;
+    }
+    my $dbh;
+    $dbh=$rv->{dbh};
+    $dbh->do($sql);
+
+    $c->response->body("OK");
+}
+
 
 =head2 default
 

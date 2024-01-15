@@ -1,15 +1,10 @@
-<style>
-    td {
-        class: "text-center";
-    }
-</style>
-
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
             <h1>SLSC Race Committee Sign Up Sheet for 2024</h1>
+            <hr/>
             <p>Click on any button and use the popup form to enter your name and email.
-                <b>Once you have saved the data it cannot be changed.</b><br/>
+                <b>Once you have saved the data it cannot be changed.</b>
                 If you want the email address of a person just hover the cursor over their name.
                 If you need help contact jeff@sailsaratoga.org</p>
         </div>

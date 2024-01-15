@@ -71,8 +71,18 @@ function RcCrewGrid(staffJson) {
         let ymd = self.dateToYMD(a.date);
         let namecol = self.sqlcol+'name';
         let emailcol = self.sqlcol+'email';
-        let sql = 'INSERT INTO Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
+        let sql = 'UPDATE Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
         console.log(sql);
+        $.ajax({
+            url: '/update?query=' + encodeURI(sql),
+            success: function(resp){
+                console.log("Resp: %O",resp);
+                location.reload();
+            },
+            error: function (err) {
+                console.error("Rx err %O",err);
+            }
+        })
     }
 
     self.formCancel = function (a, b) {
