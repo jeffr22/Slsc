@@ -74,17 +74,16 @@ function RcCrewGrid(staffJson) {
         q['nameval'] = a.username();
         q['emailcol'] = self.sqlcol+'email';
         q['emailval'] = a.useremail();
-
-        // let sql = 'UPDATE Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
-        // console.log(sql);
         let jdata = JSON.stringify(q);
         $.ajax({
             url: '/update_rc_sheet?query=' + encodeURI(jdata),
             success: function(resp){
                 if (resp == "OK")
                     location.reload();
-                if (resp == "BAD EMAIL")
-                    console.log("BAD EMAIL")
+                if (resp == "BAD EMAIL"){
+                    console.log("BAD EMAIL");
+                    $('#badEmailModal').show();
+                }
             },
             error: function (err) {
                 console.error("Rx err %O",err);
@@ -94,6 +93,7 @@ function RcCrewGrid(staffJson) {
 
     self.formCancel = function (a, b) {
         $('#myModal').hide();
+        $('#badEmailModal').hide();
     }
 
     //Convert Wed May 8 => 2024-05-08

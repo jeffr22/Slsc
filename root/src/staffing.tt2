@@ -2,11 +2,12 @@
     <div class="row">
         <div class="col-xs-12">
             <h1>SLSC Race Committee Sign Up Sheet for 2024</h1>
-            <hr/>
+            <hr />
             <p>Click on any button and use the popup form to enter your name and email.
                 <b>Once you have saved the data it cannot be changed.</b>
                 If you want the email address of a person just hover the cursor over their name.
-                If you need help contact jeff@sailsaratoga.org</p>
+                If you need help contact jeff@sailsaratoga.org
+            </p>
         </div>
     </div>
     <div class="row">
@@ -27,10 +28,6 @@
                             <tr>
                                 <td><input class="form-control" type="text" data-bind="textInput: useremail" placeholder="Enter Email"></td>
                             </tr>
-                            <!-- <tr>
-                                <td>Pin</td>
-                                <td><input type="text"></td>
-                            </tr> -->
                         </table>
                     </div>
 
@@ -44,85 +41,107 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12"></div>
-            <table class="table table-light table-striped">
-                <colgroup>
-                    <col width="*" />
-                    <col width="12%" />
-                    <col width="12%" />
-                    <col width="12%" />
-                    <col width="12%" />
-                    <col width="12%" />
-                    <col width="12%" />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th class="text-center">Date</th>
-                        <th class="text-center">Captain</th>
-                        <th class="text-center">Assistant</th>
-                        <th class="text-center">Safety Boat 1A</th>
-                        <th class="text-center">Safety Boat 1B</th>
-                        <th class="text-center">Safety Boat 2A</th>
-                        <th class="text-center">Safety Boat 2B</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: aRcCrews">
-                    <tr>
-                        <td class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
-                        <td class="text-center">
-                            <!-- ko if: captain.name().length > 4 -->
-                            <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: captain.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
-                            <!-- /ko -->
-                        </td>
-                        <td class="text-center">
-                            <!-- ko if: assistant.name().length > 4 -->
-                            <span data-bind="text:assistant.name(),attr:{title:assistant.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: assistant.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
-                            <!-- /ko -->
-                        </td>
-                        <td class="text-center">
-                            <!-- ko if: sb1_1.name().length > 4 -->
-                            <span data-bind="text:sb1_1.name(),attr:{title:sb1_1.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: sb1_1.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11">
-                            <!-- /ko -->
-                        </td>
-                        <td class="text-center">
-                            <!-- ko if: sb1_2.name().length > 4 -->
-                            <span data-bind="text:sb1_2.name(),attr:{title:sb1_2.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: sb1_2.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
-                            <!-- /ko -->
-                        </td>
-                        <td class="text-center">
-                            <!-- ko if: sb2_1.name().length > 4 -->
-                            <span data-bind="text:sb2_1.name(),attr:{title:sb2_1.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: sb2_1.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
-                            <!-- /ko -->
-                        </td>
-                        <td class="text-center">
-                            <!-- ko if: sb2_2.name().length > 4 -->
-                            <span data-bind="text:sb2_2.name(),attr:{title:sb2_2.email}" data-toggle="tooltip" data-placement="top"></span>
-                            <!-- /ko -->
-                            <!-- ko if: sb2_2.name().length <= 4 -->
-                            <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22">
-                            <!-- /ko -->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="modal" id="badEmailModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="color:red">Bad Email Address </h4>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <p>The email address you entered is not that of a know club member. Please check you spelling and if there is still an issue contact 'jeff@sailsaratoga.org'</p>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bind="click:formCancel">OK</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12"></div>
+        <table class="table table-light table-striped">
+            <colgroup>
+                <col width="*" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Captain</th>
+                    <th class="text-center">Assistant</th>
+                    <th class="text-center">Safety Boat 1A</th>
+                    <th class="text-center">Safety Boat 1B</th>
+                    <th class="text-center">Safety Boat 2A</th>
+                    <th class="text-center">Safety Boat 2B</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: aRcCrews">
+                <tr>
+                    <td class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
+                    <td class="text-center">
+                        <!-- ko if: captain.name().length > 4 -->
+                        <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: captain.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
+                        <!-- /ko -->
+                    </td>
+                    <td class="text-center">
+                        <!-- ko if: assistant.name().length > 4 -->
+                        <span data-bind="text:assistant.name(),attr:{title:assistant.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: assistant.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
+                        <!-- /ko -->
+                    </td>
+                    <td class="text-center">
+                        <!-- ko if: sb1_1.name().length > 4 -->
+                        <span data-bind="text:sb1_1.name(),attr:{title:sb1_1.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb1_1.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11">
+                        <!-- /ko -->
+                    </td>
+                    <td class="text-center">
+                        <!-- ko if: sb1_2.name().length > 4 -->
+                        <span data-bind="text:sb1_2.name(),attr:{title:sb1_2.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb1_2.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
+                        <!-- /ko -->
+                    </td>
+                    <td class="text-center">
+                        <!-- ko if: sb2_1.name().length > 4 -->
+                        <span data-bind="text:sb2_1.name(),attr:{title:sb2_1.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb2_1.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
+                        <!-- /ko -->
+                    </td>
+                    <td class="text-center">
+                        <!-- ko if: sb2_2.name().length > 4 -->
+                        <span data-bind="text:sb2_2.name(),attr:{title:sb2_2.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb2_2.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22">
+                        <!-- /ko -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <script src="/static/js/rcCrewObj.js" type="text/javascript"></script>
