@@ -1,0 +1,22 @@
+#Copy this file to /etc/systemd/system
+[Unit]
+Description = SLSC Signup Sheet
+After = network.target
+
+[Service]
+Type=simple
+Restart=on-success
+RestartSec=30
+User=btcat
+ExecStart=/home/btcat/Slsc/script/slsc_server.pl -f
+ExecStop=/home/btcat/Slsc/script/slsc_server.pl --stop
+WorkingDirectory=/home/btcat/Slsc
+
+#KillSignal=SIGHUP
+#StartLimitBurst=5
+#StartLimitInterval=30
+#Nice=-10
+#EnvironmentFile=/etc/sysconfig/dialogflow
+
+[Install]
+WantedBy = multi-user.target
