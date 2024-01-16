@@ -68,16 +68,23 @@ function RcCrewGrid(staffJson) {
 
     self.formSave = function(a,b){
         $('#myModal').hide();
-        let ymd = self.dateToYMD(a.date);
-        let namecol = self.sqlcol+'name';
-        let emailcol = self.sqlcol+'email';
-        let sql = 'UPDATE Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
-        console.log(sql);
+        let q = {};
+        q['ymd'] = self.dateToYMD(a.date);
+        q['namecol'] = self.sqlcol+'name';
+        q['nameval'] = a.username();
+        q['emailcol'] = self.sqlcol+'email';
+        q['emailval'] = a.useremail();
+
+        // let sql = 'UPDATE Slsc.staffing SET ' + namecol + '="' + a.username() + '",' + emailcol + '="' + a.useremail() + '" WHERE rcdate="' + ymd + '";';
+        // console.log(sql);
+        let jdata = JSON.stringify(q);
         $.ajax({
-            url: '/update?query=' + encodeURI(sql),
+            url: '/update_rc_sheet?query=' + encodeURI(jdata),
             success: function(resp){
-                console.log("Resp: %O",resp);
-                location.reload();
+                if (resp == "OK")
+                    location.reload();
+                if (resp == "BAD EMAIL")
+                    console.log("BAD EMAIL")
             },
             error: function (err) {
                 console.error("Rx err %O",err);

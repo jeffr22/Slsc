@@ -41,6 +41,12 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
+    $c->response->body( 'Page not found' );
+    $c->response->status(404);
+}
+
+sub signupsheet :Local {
+    my ( $self, $c ) = @_;
     #create a handle to MySQL
     my $dbInfo = {
         'dbname'=>'Slsc',
@@ -62,14 +68,20 @@ sub index :Path :Args(0) {
 
     # Hello World
     # $c->response->body(Dumper($rv));
-    $c->stash->{table_json} = to_json($rv);
+    $c->stash->{table_json} = JSON::encode_json($rv);
     $c->stash->{template} = 'staffing.tt2';
 }
 
-sub update :Local {
+sub update_rc_sheet :Local {
     my ( $self, $c ) = @_;
-    my $sql = $c->request->parameters->{query};
-    $c->log->debug("Received => $sql\n");
+    my $q = $c->request->parameters->{query};
+    $c->log->debug("Received => $q\n");
+
+
+    my $h = JSON::decode_json($q);
+    my $sql = sprintf('UPDATE Slsc.staffing SET %s="%s",%s="%s" WHERE rcdate="%s"',
+                $h->{namecol},$h->{nameval},$h->{emailcol},$h->{emailval},$h->{ymd} );
+    $c->log->debug("SQL => $sql\n");
 
     #create a handle to MySQL
     my $dbInfo = {
@@ -78,16 +90,26 @@ sub update :Local {
         'user' => $c->config->{dbUser},
         'pw' => $c->config->{dbPW}
     };
-
     my $rv = DbUtils::dbConnect($dbInfo);
     if($rv->{exitCode} == 1){
         return;
     }
     my $dbh;
     $dbh=$rv->{dbh};
-    $dbh->do($sql);
 
-    $c->response->body("OK");
+    #Check the email is valid
+    my $esql = sprintf('SELECT * FROM Slsc.members WHERE email1="%s"',$h->{'emailval'});
+    $rv = $dbh->selectall_arrayref($esql);
+    my $respBody="OK";
+$DB::single=1;
+    if(scalar(@{$rv}) > 0){
+        $dbh->do($sql);
+    }
+    else{
+        $respBody="BAD EMAIL";
+    }
+
+    $c->response->body($respBody);
 }
 
 
