@@ -17,6 +17,15 @@ sub dbConnect($){
     return {'exitCode'=>0,'dbh'=>$dbh};
 }
 
+sub dbCreds(){
+    return {
+        'dbname'=>'Slsc',
+        'url' => 'localhost',
+        'user' => 'btdb',
+        'pw' => 'btdb12065'
+    };
+}
+
 =head2 initSeason()
 =pod
 Given a 'start/end season' date compute all the Sundays and Wednesdays on thta period

@@ -19,7 +19,6 @@ sub dbCreds(){
         'user' => 'btdb',
         'pw' => 'btdb12065'
     };
-
 }
 
 
@@ -33,6 +32,31 @@ CREATE TABLE Slsc.members (
     count INT DEFAULT 0,
     PRIMARY KEY (email1)
 )  ENGINE=MYISAM DEFAULT CHARSET=LATIN1;
+ENDSQL
+    my $dbInfo = dbCreds();
+    my $rv = dbConnect($dbInfo);
+    $rv->{dbh}->do($sql);
+}
+
+
+sub dbCreateStaffing(){
+    my $sql =<<'ENDSQL';
+CREATE TABLE Slsc.staffing (
+	rcdate date NOT NULL,
+	rc_name varchar(40) NOT NULL,
+    rc_email varchar(40) NOT NULL,
+    ac_name varchar(40) NOT NULL,
+    ac_email varchar(40) NOT NULL,
+	s1_1_name varchar(40) NOT NULL,
+    s1_1_email varchar(40) NOT NULL,
+    s1_2_name varchar(40) NOT NULL,
+    s1_2_email varchar(40) NOT NULL,
+	s2_1_name varchar(40) NOT NULL,
+    s2_1_email varchar(40) NOT NULL,
+    s2_2_name varchar(40) NOT NULL,
+    s2_2_email varchar(40) NOT NULL,
+	PRIMARY KEY (rcdate)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ENDSQL
     my $dbInfo = dbCreds();
     my $rv = dbConnect($dbInfo);
