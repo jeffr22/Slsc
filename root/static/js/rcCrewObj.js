@@ -1,8 +1,14 @@
+
+const sunSeries = [['Practice', 5, 5], ['Zephyr', 5, 26], ['Robinson', 7, 14], ['Kaydeross', 9, 1]];
+const wedSeries = [['Practice', 5, 5], ['Manning', 5, 29], ['Rice', 9, 4]];
+
 class RcCrew {
     constructor(aData) {
         let self = this;
+        let dateRace = self.fmtDayAndSeries(aData[0]);
         self.ymd = aData[0];
-        self.date = this.dateToMonthDay(aData[0]);
+        self.date = dateRace[0];
+        self.race = dateRace[1];
         self.captain = {};
         self.captain.name = ko.observable(aData[1]);
         self.captain.email = ko.observable(aData[2]);
@@ -25,15 +31,76 @@ class RcCrew {
         return self;
     }
 
+    //Add the series as a second line to the mm-dd date.
+    fmtDayAndSeries(inputDate){
+        let md = this.dateToMonthDay(inputDate);
+        let ssLen = sunSeries.length;
+        let wsLen = wedSeries.length;
+        let hSeries = [];
+        if(md['weekday'] == 'Sun'){
+            let idx = 0;
+            let flag = 1;
+            while(flag > 0){
+                hSeries = sunSeries[idx];
+                if(md['monthnum'] > hSeries[1]){
+                    flag = 1;
+                    idx += 1;
+                }
+                else if ((md['monthnum'] == hSeries[1]) && (md['daynum'] >= hSeries[2])){
+                    flag = 1;
+                    idx += 1;
+                }
+                else{
+                    flag=0;
+                }
+                if(idx >= ssLen){
+                    // idx = ssLen - 1;
+                    flag = 0;
+                }
+            }
+            hSeries = sunSeries[idx - 1];
+
+        } else {
+            let idx = 0;
+            let flag = 1;
+            while (flag > 0) {
+                hSeries = wedSeries[idx];
+                if (md['monthnum'] > hSeries[1]) {
+                    flag = 1;
+                    idx += 1;
+                }
+                else if ((md['monthnum'] == hSeries[1]) && (md['daynum'] >= hSeries[2])) {
+                    flag = 1;
+                    idx += 1;
+                }
+                else {
+                    flag = 0;
+                }
+                if (idx >= wsLen) {
+                    // idx = wsLen - 1;
+                    flag = 0;
+                }
+            }
+            hSeries =  wedSeries[idx - 1];
+        }
+        const formattedDate = `${md['weekday']} ${md['monthname']} ${md['daynum']}`;
+        return [formattedDate, hSeries[0]];
+    }
+
     // Convert 2024-05-08 => Wed May 8
     dateToMonthDay(inputDate) {
         const [year, month, day] = inputDate.split('-');
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         const monthAbbreviation = months[parseInt(month, 10) - 1];
+        const weekday = this.getWeekday(inputDate);
+        const daynum = parseInt(day, 10);
+        const monthnum = parseInt(month);
+        return {'weekday':weekday,'monthname': monthAbbreviation,'monthnum':monthnum,'daynum':daynum};
+        /*
         const formattedDate = `${this.getWeekday(inputDate)} ${monthAbbreviation} ${parseInt(day, 10)}`;
-
         return formattedDate;
+        */
     }
 
     getWeekday(inputDate) {
