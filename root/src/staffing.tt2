@@ -68,6 +68,7 @@
         <table class="table table-light table-striped">
             <colgroup>
                 <col width="*" />
+                <col width="*" />
                 <col width="12%" />
                 <col width="12%" />
                 <col width="12%" />
@@ -78,6 +79,7 @@
             <thead>
                 <tr>
                     <th class="text-center">Date</th>
+                    <th class="text-center">Series</th>
                     <th class="text-center">Captain</th>
                     <th class="text-center">Assistant</th>
                     <th class="text-center">Safety Boat 1A</th>
@@ -89,6 +91,7 @@
             <tbody data-bind="foreach: aRcCrews">
                 <tr>
                     <td class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
+                    <td class="text-center"><span style="font-weight:bold" data-bind="text:race"></span></td>
                     <td class="text-center">
                         <!-- ko if: captain.name().length > 4 -->
                         <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
