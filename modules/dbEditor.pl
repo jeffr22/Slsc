@@ -11,7 +11,7 @@ OVERVIEW
 This file contains a collection of utilities to perform the following tasks.
 1. Initialize the database for a new season.
 2. Reset a booking
-3. Compute the member sign up totals.
+3. Tally the member sign up totals.
 
 Invocations
 -----------
@@ -44,6 +44,9 @@ sub main(){
     for($Function){
         when('reset') {
             resetBooking($RcDate,$Cell);
+        }
+        when('tally') {
+            tallyMembers();
         }
         default {
             die("Unknow or missing function spcification.")
@@ -91,6 +94,36 @@ sub resetBooking($$){
     print("Done\n");
 }
 
+sub tallyMembers(){
+    my ($rcdate,$cell)=@_;
+    my $rv = DbUtils::dbConnect(DbUtils::dbCreds());
+    if($rv->{exitCode}){
+        die("Cannot connect to the database\n");
+    }
+    my $dbh = $rv->{dbh};
+    #Initialize a hash whose keys are all the members email addresses
+    my $sql = "SELECT email1 FROM Slsc.members";
+    my $qa  = $dbh->selectall_arrayref($sql);
+    my $hMem = {};
+    for my $em (@{$qa}){
+        $hMem->{$em->[0]} = 0;
+    }
+# $DB::single=1;
+    $sql = sprintf('SELECT rc_email,ac_email,s1_1_email,s1_2_email,s2_1_email,s2_2_email from Slsc.staffing');
+    $qa  = $dbh->selectall_arrayref($sql);
+# $DB::single=1;
+    for my $row (@{$qa}){
+        for my $email (@{$row}){
+            if(length($email) > 4){
+                $hMem->{$email} += 1;
+            }
+
+        }
+    }
+$DB::single=1;
+    print("OK");
+}
+
 sub parseCmdLine(){
 #------------------
     my $revHistory="
@@ -106,6 +139,9 @@ sub parseCmdLine(){
     Copyright Bluewater America 2024
     Usage:
     perl dbEditor.pl --func="reset" --date="2024-07-14" --cell="captain"
+    OR
+    perl dbEditor.pl --func="tally"
+
     where
         'cell' options are = captain|assistant|sb1A|sb1B|sb2A|sb2B
 
@@ -114,7 +150,7 @@ sub parseCmdLine(){
     ------
     --existip = (127.0.0.1) the IP address of the eXist DB.
 
-    --help = print brief help text.
+    --help = print this help text.
     --rev  = print revision history
 
 HELP_MSG
