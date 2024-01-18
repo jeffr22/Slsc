@@ -128,4 +128,7 @@ sub parse2023(){
     }
 }
 
-parse2023();
+# Just call whatever function you want to exec here.
+# Not pretty, but this only likely used once to initialize the DB.
+# activemembers()
+# parse2023();

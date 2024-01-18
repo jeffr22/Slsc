@@ -1,4 +1,6 @@
-
+//These are the Sunday and Wednesday race definitions - need to come from a config file
+//The format of each race series if ['name', 'start month', 'start day'], so ['Robinson',7,14]
+//defines the Robinson series start on July 14th.
 const sunSeries = [['Practice', 5, 5], ['Zephyr', 5, 26], ['Robinson', 7, 14], ['Kaydeross', 9, 1]];
 const wedSeries = [['Practice', 5, 5], ['Manning', 5, 29], ['Rice', 9, 4]];
 
