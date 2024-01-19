@@ -3,6 +3,7 @@
 //defines the Robinson series start on July 14th.
 const sunSeries = [['Practice', 5, 5], ['Zephyr', 5, 26], ['Robinson', 7, 14], ['Kaydeross', 9, 1]];
 const wedSeries = [['Practice', 5, 5], ['Manning', 5, 29], ['Rice', 9, 4]];
+var raceCount = { 'Practice': 0, 'Zephyr': 0, 'Robinson': 0, 'Kaydeross': 0, 'Manning':0, 'Rice':0 };
 
 class RcCrew {
     constructor(aData) {
@@ -85,8 +86,11 @@ class RcCrew {
             }
             hSeries =  wedSeries[idx - 1];
         }
+        let raceName = hSeries[0]
+        raceCount[raceName] += 1;
         const formattedDate = `${md['weekday']} ${md['monthname']} ${md['daynum']}`;
-        return [formattedDate, hSeries[0]];
+        const raceNameAndNum = `${raceName} #${raceCount[raceName]}`;
+        return [formattedDate, raceNameAndNum];
     }
 
     // Convert 2024-05-08 => Wed May 8
