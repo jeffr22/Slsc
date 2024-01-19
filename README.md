@@ -10,20 +10,20 @@ The project has been built around the combination of Catalyst, KnockoutJS and My
 1. Slsc.staffing - stoeres the reservations or '-' if the cell is available.
 ```{results='asis'}
 CREATE TABLE Slsc.staffing (
-	rcdate date NOT NULL,
-	rc_name varchar(40) NOT NULL,
+    rcdate date NOT NULL,
+    rc_name varchar(40) NOT NULL,
     rc_email varchar(40) NOT NULL,
     ac_name varchar(40) NOT NULL,
     ac_email varchar(40) NOT NULL,
-	s1_1_name varchar(40) NOT NULL,
+    s1_1_name varchar(40) NOT NULL,
     s1_1_email varchar(40) NOT NULL,
     s1_2_name varchar(40) NOT NULL,
     s1_2_email varchar(40) NOT NULL,
-	s2_1_name varchar(40) NOT NULL,
+    s2_1_name varchar(40) NOT NULL,
     s2_1_email varchar(40) NOT NULL,
     s2_2_name varchar(40) NOT NULL,
     s2_2_email varchar(40) NOT NULL,
-	PRIMARY KEY (rcdate)
+    PRIMARY KEY (rcdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ```
 
