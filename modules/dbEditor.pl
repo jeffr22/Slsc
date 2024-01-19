@@ -28,6 +28,7 @@ where
 my $Function = 'reset';
 my $RcDate = '';
 my $Cell = '';
+my $Value = '';
 
 main();
 exit(0);
@@ -44,6 +45,9 @@ sub main(){
     for($Function){
         when('reset') {
             resetBooking($RcDate,$Cell);
+        }
+        when('updatecell') {
+            updatecell($RcDate,$Cell,$Value);
         }
         when('tally') {
             tallyMembers();
@@ -94,6 +98,58 @@ sub resetBooking($$){
     print("Done\n");
 }
 
+sub updatecell($$){
+    my ($rcdate,$cell,$value)=@_;
+    my $rv = DbUtils::dbConnect(DbUtils::dbCreds());
+    if($rv->{exitCode}){
+        die("Cannot connect to the database\n");
+    }
+    my $dbh = $rv->{dbh};
+
+    if($rcdate=~/\d{4}\-\d{2}\-\d{2}/){
+        $rcdate = $&; # Reoves any leading/trailing whitespace
+    } else {
+        die("Invalid date format, MUST be of the form YYYY-MM-DD, ie 2024-07-14\n");
+    }
+    my $colname="";
+    my $colemail="";
+    if($cell=~/captain|assistant|sb1a|sb1b|sb2a|sb2b/){
+        no warnings;
+        for($cell){
+            when('captain'){$colname="rc_name";$colemail="rc_email"}
+            when('assistant'){$colname="ac_name";$colemail="ac_email"}
+            when('sb1a'){$colname="s1_1_name";$colemail="s1_1_email"}
+            when('sb1b'){$colname="s1_2_name";$colemail="s1_2_email"}
+            when('sb2a'){$colname="s2_1_name";$colemail="s2_1_email"}
+            when('sb2b'){$colname="s2_2_name";$colemail="s2_2_email"}
+            default{
+                die("Unknown error in switch statement\n")
+            }
+        }
+    } else {
+        die("Unrecognized 'cell' name\n")
+    }
+
+    #Now check the name/email values
+    my ($name,$email) = split(':',$value);
+    if($name=~/(\w+)\s+(\w*)/){
+        $name=ucfirst($1).' '.ucfirst($2);
+    } else {
+        die("Invalid name MUST be of the form 'First Last'\n");
+    }
+    if($email=~/[\w\.]+\@[\w\.]+/){
+        $email=lc($&);
+    } else {
+        die("Invalid email MUST be of the form 'name\@domain'\n");
+    }
+
+    my $sql = sprintf('UPDATE Slsc.staffing SET %s="%s",%s="%s" WHERE rcdate="%s"',
+                $colname,$name,$colemail,$email,$rcdate);
+    printf("SQL: %s\n",$sql);
+    $dbh->do($sql);
+    print("Done\n");
+}
+
 sub tallyMembers(){
     my ($rcdate,$cell)=@_;
     my $rv = DbUtils::dbConnect(DbUtils::dbCreds());
@@ -108,20 +164,27 @@ sub tallyMembers(){
     for my $em (@{$qa}){
         $hMem->{$em->[0]} = 0;
     }
-# $DB::single=1;
+
+    # Now that the counting hash is initialized we can scan the actual bookings and
+    # compose a tally of member sign ups.
     $sql = sprintf('SELECT rc_email,ac_email,s1_1_email,s1_2_email,s2_1_email,s2_2_email from Slsc.staffing');
     $qa  = $dbh->selectall_arrayref($sql);
-# $DB::single=1;
     for my $row (@{$qa}){
         for my $email (@{$row}){
+            print("$email\n");
             if(length($email) > 4){
                 $hMem->{$email} += 1;
             }
-
         }
     }
-$DB::single=1;
-    print("OK");
+
+    # Tally is complete now we can update the 'members' database.
+    for my $email (keys(%{$hMem})){
+        my $sql = sprintf('UPDATE Slsc.members SET count=%d WHERE email1="%s"',$hMem->{$email},$email);
+        print("$sql\n");
+        $dbh->do($sql);
+    }
+    print("Done");
 }
 
 sub parseCmdLine(){
@@ -140,11 +203,13 @@ sub parseCmdLine(){
     Usage:
     perl dbEditor.pl --func="reset" --date="2024-07-14" --cell="captain"
     OR
+    perl dbEditor.pl --func="updatecell" --date="2024-07-14" --cell="assistant" --value="Joanne Fraser:joanne12193@gmail.com"
+    OR
     perl dbEditor.pl --func="tally"
 
     where
         'cell' options are = captain|assistant|sb1A|sb1B|sb2A|sb2B
-
+        'value' is "name:email" when used with 'updatecell'
 
     PARAMS
     ------
@@ -159,6 +224,7 @@ HELP_MSG
         "func=s"=>\$Function,
         "date=s" => \$RcDate,
         "cell=s" => \$Cell,
+        "value=s" => \$Value,
         "help"=>sub{
             # Print the help message.
             print "$helpText";
