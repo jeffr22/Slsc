@@ -12,6 +12,21 @@ class RcCrew {
         self.ymd = aData[0];
         self.date = dateRace[0];
         self.race = dateRace[1];
+
+        /*2024-05-27 code to color races that have past in grey.
+          The 'self.inpast' variable is used in JS to do this.*/
+        let today = new Date();
+        let dateRow = new Date(self.ymd);
+        /* Use JS to select the CSS class which can be 'pastrow', 'odd' for Wed or 'even' for Sunday */
+        self.inpast=false;
+        if (dateRow < today){
+            self.rowcss='pastrow';
+        } else if(self.date.startsWith('Wed')) {
+            self.rowcss = 'odd';
+        } else {
+            self.rowcss='even';
+        }   
+
         self.captain = {};
         self.captain.name = ko.observable(aData[1]);
         self.captain.email = ko.observable(aData[2]);

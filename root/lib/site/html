@@ -12,6 +12,18 @@
 
             <script type="text/javascript" src="/static/js/knockout-3.5.1.js"></script>
             <!-- <script type="text/javascript" src="/static/js/knockout.mapping.js"></script> -->
+            <style>
+            .pastrow{
+                background-color:lightgray !important;
+            }
+            .odd{
+                background-color: rgba(0,255,255,0.4) !important;
+            }
+            .even{
+                background-color: white !important;
+                /* background-color: rgba(127,255,0,0.3) !important; */
+            }
+            </style>
         </head>
     <body onload="loaded()">
         [% content %]

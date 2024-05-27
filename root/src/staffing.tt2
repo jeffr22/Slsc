@@ -6,7 +6,9 @@
             <p>Click on any button and use the popup form to enter your name and email.
                 <b>Once you have saved the data it cannot be changed.</b>
                 If you want the email address of a person just hover the cursor over their name.
-                If you need help contact jeff@sailsaratoga.org
+                If you really cannot make it on race day contact the Race Captain as early as possible so that he/she
+                can find an alternate.
+                If you need help with this app contact jeff@sailsaratoga.org
             </p>
         </div>
     </div>
@@ -65,7 +67,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12"></div>
-        <table class="table table-light table-striped">
+        <table class="table table-light table-bordered">
             <colgroup>
                 <col width="*" />
                 <col width="*" />
@@ -90,9 +92,9 @@
             </thead>
             <tbody data-bind="foreach: aRcCrews">
                 <tr>
-                    <td class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
-                    <td class="text-center"><span style="font-weight:bold" data-bind="text:race"></span></td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
+                    <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:race"></span></td>
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: captain.name().length > 4 -->
                         <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
@@ -100,7 +102,7 @@
                         <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
                         <!-- /ko -->
                     </td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: assistant.name().length > 4 -->
                         <span data-bind="text:assistant.name(),attr:{title:assistant.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
@@ -108,7 +110,7 @@
                         <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
                         <!-- /ko -->
                     </td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: sb1_1.name().length > 4 -->
                         <span data-bind="text:sb1_1.name(),attr:{title:sb1_1.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
@@ -116,7 +118,7 @@
                         <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11">
                         <!-- /ko -->
                     </td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: sb1_2.name().length > 4 -->
                         <span data-bind="text:sb1_2.name(),attr:{title:sb1_2.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
@@ -124,7 +126,7 @@
                         <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
                         <!-- /ko -->
                     </td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: sb2_1.name().length > 4 -->
                         <span data-bind="text:sb2_1.name(),attr:{title:sb2_1.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
@@ -132,7 +134,7 @@
                         <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
                         <!-- /ko -->
                     </td>
-                    <td class="text-center">
+                    <td data-bind="class:rowcss" class="text-center">
                         <!-- ko if: sb2_2.name().length > 4 -->
                         <span data-bind="text:sb2_2.name(),attr:{title:sb2_2.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->

@@ -158,7 +158,7 @@ sub tallyMembers(){
     }
     my $dbh = $rv->{dbh};
     #Initialize a hash whose keys are all the members email addresses
-    my $sql = "SELECT email1 FROM Slsc.members";
+    my $sql = "SELECT email1 FROM Slsc.members where racer=1 and senior=0";
     my $qa  = $dbh->selectall_arrayref($sql);
     my $hMem = {};
     for my $em (@{$qa}){
@@ -171,6 +171,8 @@ sub tallyMembers(){
     $qa  = $dbh->selectall_arrayref($sql);
     for my $row (@{$qa}){
         for my $email (@{$row}){
+            $email = lc($email);
+            $email =~ s/^\s+|\s+$//g;
             print("$email\n");
             if(length($email) > 4){
                 $hMem->{$email} += 1;
@@ -180,10 +182,22 @@ sub tallyMembers(){
 
     # Tally is complete now we can update the 'members' database.
     for my $email (keys(%{$hMem})){
-        my $sql = sprintf('UPDATE Slsc.members SET count=%d WHERE email1="%s"',$hMem->{$email},$email);
+        $email = lc($email);
+        $email =~ s/^\s+|\s+$//g;
+        $sql = sprintf('UPDATE Slsc.members SET count=%d WHERE email1="%s"',$hMem->{$email},$email);
         print("$sql\n");
         $dbh->do($sql);
     }
+
+
+    # Now run a query for all those less than 2
+    $sql = sprintf('SELECT * FROM Slsc.members WHERE count < 2 AND racer=1 AND senior=0');
+    $qa  = $dbh->selectall_arrayref($sql);
+    for my $row (@{$qa}){
+        printf("%s\n",join(', ',@{$row}))
+    }
+
+
     print("Done");
 }
 
