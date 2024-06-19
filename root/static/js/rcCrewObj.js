@@ -16,7 +16,10 @@ class RcCrew {
         /*2024-05-27 code to color races that have past in grey.
           The 'self.inpast' variable is used in JS to do this.*/
         let today = new Date();
-        let dateRow = new Date(self.ymd);
+        today.setHours(0,0,0,0);
+        //Need to add the 12hr offset otherwise with our TZ this converts to the day before
+        //ie 2024-06-05 => June 4th, with the offset it yields the wanted June 5th.
+        let dateRow = new Date(self.ymd+'T12:00:00');
         /* Use JS to select the CSS class which can be 'pastrow', 'odd' for Wed or 'even' for Sunday */
         self.inpast=false;
         if (dateRow < today){
