@@ -51,12 +51,3 @@ when a user enters their name/email the 'membership' table is used to validate t
        3. "tally" - update the members database with a count of the number of times members have signed up.
 
 
-
-
-## TO DO
-1. Add facilities for add/del/change entries in the members DB.
-2. Add Perl code to read the members DB and send a reminder email to all those who need to sign up.
-3. Perl code to send a reminder to all those on duty in the coming week. There should be seperate reminder for Sunday and Wednesday both sent 2 days ahead of the race.
-4. Need a means to easily define a new season.
-   1. There is the DBUtils::initSeason function but that will perform a basic init of the staffing DB however there is nothing to set up the Race Series and I'm sure there is other stuff.
-5.
