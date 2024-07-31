@@ -58,7 +58,9 @@ class RcCrew {
         let ssLen = sunSeries.length;
         let wsLen = wedSeries.length;
         let hSeries = [];
+        let sunFlag = 0
         if(md['weekday'] == 'Sun'){
+            sunFlag = 1
             let idx = 0;
             let flag = 1;
             while(flag > 0){
@@ -107,7 +109,8 @@ class RcCrew {
         let raceName = hSeries[0]
         raceCount[raceName] += 1;
         const formattedDate = `${md['weekday']} ${md['monthname']} ${md['daynum']}`;
-        const raceNameAndNum = `${raceName} #${raceCount[raceName]}`;
+        let rc = raceCount[raceName]
+        let raceNameAndNum = sunFlag==0 || raceName=='Practice' ?`${raceName} #${rc}`: `${raceName} #${rc*2-1}/${rc*2}`;
         return [formattedDate, raceNameAndNum];
     }
 
