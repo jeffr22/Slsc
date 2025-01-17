@@ -47,6 +47,11 @@ sub index :Path :Args(0) {
 
 sub signupsheet :Local {
     my ( $self, $c ) = @_;
+    $c->stash->{template} = 'wait.tt2';
+}
+
+sub zignupsheet :Local {
+    my ( $self, $c ) = @_;
     #create a handle to MySQL
     my $dbInfo = {
         'dbname'=>'Slsc',
@@ -63,7 +68,7 @@ sub signupsheet :Local {
     $dbh=$rv->{dbh};
 
     #Envoke the HTML template that will display the current staffing chart.
-    my $sql = 'SELECT * FROM Slsc.staffing';
+    my $sql = 'SELECT * FROM Slsc.staffing ORDER BY rcdate ASC';
     $rv = $dbh->selectall_arrayref($sql);
 
     # Hello World
