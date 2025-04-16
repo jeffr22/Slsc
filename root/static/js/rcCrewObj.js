@@ -2,7 +2,7 @@
 //The format of each race series if ['name', 'start month', 'start day'], so ['Robinson',7,14]
 //defines the Robinson series start on July 14th.
 const sunSeries = [['Practice', 5, 5], ['Zephyr', 5, 25], ['Robinson', 7, 13], ['Kaydeross', 8, 31]];
-const wedSeries = [['Practice', 5, 5], ['Manning', 5, 28], ['Rice', 9, 4]];
+const wedSeries = [['Practice', 5, 5], ['Manning', 5, 28], ['Rice', 9, 3]];
 var raceCount = { 'Practice': 0, 'Zephyr': 0, 'Robinson': 0, 'Kaydeross': 0, 'Manning':0, 'Rice':0 };
 
 class RcCrew {

@@ -45,12 +45,12 @@ sub index :Path :Args(0) {
     $c->response->status(404);
 }
 
-sub signupsheet :Local {
+sub zignupsheet :Local {
     my ( $self, $c ) = @_;
     $c->stash->{template} = 'wait.tt2';
 }
 
-sub zignupsheet :Local {
+sub signupsheet :Local {
     my ( $self, $c ) = @_;
     #create a handle to MySQL
     my $dbInfo = {
