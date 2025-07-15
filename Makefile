@@ -1,7 +1,7 @@
 # This Makefile is for the Slsc extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 7.62 (Revision: 76200) from the contents of
+# 7.70 (Revision: 77000) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -39,6 +39,7 @@ AR = ar
 CC = x86_64-linux-gnu-gcc
 CCCDLFLAGS = -fPIC
 CCDLFLAGS = -Wl,-E
+CPPRUN = x86_64-linux-gnu-gcc  -E
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
@@ -50,12 +51,12 @@ LIBC = /lib/x86_64-linux-gnu/libc.so.6
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 4.19.0
+OSVERS = 6.1.0
 RANLIB = :
-SITELIBEXP = /usr/local/share/perl/5.34.0
-SITEARCHEXP = /usr/local/lib/x86_64-linux-gnu/perl/5.34.0
+SITELIBEXP = /usr/local/share/perl/5.38.2
+SITEARCHEXP = /usr/local/lib/x86_64-linux-gnu/perl/5.38.2
 SO = so
-VENDORARCHEXP = /usr/lib/x86_64-linux-gnu/perl5/5.34
+VENDORARCHEXP = /usr/lib/x86_64-linux-gnu/perl5/5.38
 VENDORLIBEXP = /usr/share/perl5
 
 
@@ -88,17 +89,17 @@ PREFIX = $(SITEPREFIX)
 PERLPREFIX = /usr
 SITEPREFIX = /usr/local
 VENDORPREFIX = /usr
-INSTALLPRIVLIB = /usr/share/perl/5.34
+INSTALLPRIVLIB = /usr/share/perl/5.38
 DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = /usr/local/share/perl/5.34.0
+INSTALLSITELIB = /usr/local/share/perl/5.38.2
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
 INSTALLVENDORLIB = /usr/share/perl5
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.34
+INSTALLARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.38
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = /usr/local/lib/x86_64-linux-gnu/perl/5.34.0
+INSTALLSITEARCH = /usr/local/lib/x86_64-linux-gnu/perl/5.38.2
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = /usr/lib/x86_64-linux-gnu/perl5/5.34
+INSTALLVENDORARCH = /usr/lib/x86_64-linux-gnu/perl5/5.38
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
 INSTALLBIN = /usr/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
@@ -125,15 +126,15 @@ DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
 INSTALLVENDORMAN3DIR = /usr/share/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
 PERL_LIB =
-PERL_ARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.34
-PERL_ARCHLIBDEP = /usr/lib/x86_64-linux-gnu/perl/5.34
+PERL_ARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.38
+PERL_ARCHLIBDEP = /usr/lib/x86_64-linux-gnu/perl/5.38
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib/x86_64-linux-gnu/perl/5.34/CORE
-PERL_INCDEP = /usr/lib/x86_64-linux-gnu/perl/5.34/CORE
+PERL_INC = /usr/lib/x86_64-linux-gnu/perl/5.38/CORE
+PERL_INCDEP = /usr/lib/x86_64-linux-gnu/perl/5.38/CORE
 PERL = "/usr/bin/perl" "-Iinc"
 FULLPERL = "/usr/bin/perl" "-Iinc"
 ABSPERL = $(PERL)
@@ -148,9 +149,9 @@ PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/share/perl/5.34/ExtUtils/MakeMaker.pm
-MM_VERSION  = 7.62
-MM_REVISION = 76200
+MAKEMAKER   = /usr/share/perl/5.38/ExtUtils/MakeMaker.pm
+MM_VERSION  = 7.70
+MM_REVISION = 77000
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -208,7 +209,7 @@ TO_INST_PM = lib/Slsc.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 7.62
+MM_Unix_VERSION = 7.70
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -786,7 +787,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
 FULLPERL      = "/usr/bin/perl"
-MAP_PERLINC   = "-Iblib/arch" "-Iblib/lib" "-I/usr/lib/x86_64-linux-gnu/perl/5.34" "-I/usr/share/perl/5.34"
+MAP_PERLINC   = "-Iblib/arch" "-Iblib/lib" "-I/usr/lib/x86_64-linux-gnu/perl/5.38" "-I/usr/share/perl/5.38"
 
 $(MAP_TARGET) :: $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
@@ -848,7 +849,7 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Config::General" />' >> Slsc.ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Moose::" />' >> Slsc.ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="namespace::autoclean" />' >> Slsc.ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.34" />' >> Slsc.ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.38" />' >> Slsc.ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> Slsc.ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> Slsc.ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> Slsc.ppd

@@ -1,35 +1,159 @@
-<div id="staffing">
-<table>
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Captain</th>
-            <th>Assistant</th>
-            <th>SafetyBoat 1A</th>
-            <th>SafetyBoat 1B</th>
-            <th>SafetyBoat 2A</th>
-            <th>SafetyBoat 2B</th>
-        </tr>
-    </thead>
-    <tbody data-bind="'foreach: aRcCrews">
-        <tr>
-            <td><span data-bind="text: $data.date"</td>
-            <td><span data-bind="text: $data.captain.name"</td>
-            <td><span data-bind="text: $data.assistant.name"</td>
-            <td><span data-bind="text: $data.sb1_1.name"</td>
-            <td><span data-bind="text: $data.sb1_2.name"</td>
-            <td><span data-bind="text: $data.sb2_1.name"</td>
-            <td><span data-bind="text: $data.sb2_2.name"</td>
-        </tr>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>SLSC Race Committee Sign Up Sheet for 2025</h1>
+            <hr />
+            <p>Click on any button and use the popup form to enter your name and email.
+                <b>Once you have saved the data it cannot be changed.</b>
+                If you want the email address of a person just hover the cursor over their name.
+                If you really cannot make it on race day contact the Race Captain as early as possible so that he/she
+                can find an alternate.
+                If you need help with this app contact jeff@sailsaratoga.org
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" data-bind="text:title"> </h4>
+                    </div>
 
-    </tbody>
-</table>
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <table class="table table-primary table-striped">
+                            <tr>
+                                <td><input class="form-control" type="text" data-bind="textInput: username" placeholder="Enter Name"></td>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control" type="text" data-bind="textInput: useremail" placeholder="Enter Email"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <p style="font-weight: normal;color:red">Double Check your data. Entries are FINAL&nbsp;&nbsp;&nbsp;</p>
+                        <button type="button" class="btn btn-primary" data-bind="click:formSave">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bind="click:formCancel">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="badEmailModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="color:red">Bad Email Address </h4>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <p>The email address you entered is not that of a known club member. Please check your spelling and if there is still an issue contact 'jeff@sailsaratoga.org'</p>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bind="click:formCancel">OK</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12"></div>
+        <table class="table table-light table-bordered">
+            <colgroup>
+                <col width="*" />
+                <col width="*" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="12%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Series</th>
+                    <th class="text-center">Captain</th>
+                    <th class="text-center">Assistant</th>
+                    <th class="text-center">Safety Boat 1A</th>
+                    <th class="text-center">Safety Boat 1B</th>
+                    <th class="text-center">Safety Boat 2A</th>
+                    <th class="text-center">Safety Boat 2B</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: aRcCrews">
+                <tr>
+                    <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
+                    <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:race"></span></td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: captain.name().length > 4 -->
+                        <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: captain.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
+                        <!-- /ko -->
+                    </td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: assistant.name().length > 4 -->
+                        <span data-bind="text:assistant.name(),attr:{title:assistant.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: assistant.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
+                        <!-- /ko -->
+                    </td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: sb1_1.name().length > 4 -->
+                        <span data-bind="text:sb1_1.name(),attr:{title:sb1_1.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb1_1.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_1.name,click:$root.editS11">
+                        <!-- /ko -->
+                    </td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: sb1_2.name().length > 4 -->
+                        <span data-bind="text:sb1_2.name(),attr:{title:sb1_2.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb1_2.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
+                        <!-- /ko -->
+                    </td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: sb2_1.name().length > 4 -->
+                        <span data-bind="text:sb2_1.name(),attr:{title:sb2_1.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb2_1.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
+                        <!-- /ko -->
+                    </td>
+                    <td data-bind="class:rowcss" class="text-center">
+                        <!-- ko if: sb2_2.name().length > 4 -->
+                        <span data-bind="text:sb2_2.name(),attr:{title:sb2_2.email}" data-toggle="tooltip" data-placement="top"></span>
+                        <!-- /ko -->
+                        <!-- ko if: sb2_2.name().length <= 4 -->
+                        <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22">
+                        <!-- /ko -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
-<script type=""text/javascript">
+<script src="/static/js/rcCrewObj.js" type="text/javascript"></script>
+<script src="/static/js/rcCrewGrid.js" type="text/javascript"></script>
+<script type="" text/javascript">
     function loaded(){
-        staffingViewModel = new rcCrewGrid("[%table_son%]");
-        ko.applyBindings(staffingViewModel);
+        rcCrewViewModel = new RcCrewGrid('[%table_json%]');
+        ko.applyBindings(rcCrewViewModel);
     }
 </script>

@@ -52,6 +52,7 @@ sub zignupsheet :Local {
 
 sub signupsheet :Local {
     my ( $self, $c ) = @_;
+    $DB::single=1;
     #create a handle to MySQL
     my $dbInfo = {
         'dbname'=>'Slsc',

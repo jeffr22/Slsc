@@ -95,23 +95,23 @@
                     <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:date"></span></td>
                     <td data-bind="class:rowcss" class="text-center"><span style="font-weight:bold" data-bind="text:race"></span></td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: captain.name().length > 4 -->
+                        <!-- ko if: captain.name().length > 4 && !race.startsWith('Rice') -->
                         <span data-bind="text:captain.name(),attr:{title:captain.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
-                        <!-- ko if: captain.name().length <= 4 -->
+                        <!-- ko if: captain.name().length <= 4  && !race.startsWith('Rice')  -->
                         <img class="img-fluid" src="/static/images/blue_button.png" data-bind="text: captain.name,click:$root.editCapt">
                         <!-- /ko -->
                     </td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: assistant.name().length > 4 -->
+                        <!-- ko if: assistant.name().length > 4  && !race.startsWith('Rice')  -->
                         <span data-bind="text:assistant.name(),attr:{title:assistant.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
-                        <!-- ko if: assistant.name().length <= 4 -->
+                        <!-- ko if: assistant.name().length <= 4  && !race.startsWith('Rice')  -->
                         <img class="img-fluid" src="/static/images/green_button.png" data-bind="text: assistant.name,click:$root.editAsst">
                         <!-- /ko -->
                     </td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: sb1_1.name().length > 4 -->
+                        <!-- ko if: sb1_1.name().length > 4  && !race.startsWith('Rice') -->
                         <span data-bind="text:sb1_1.name(),attr:{title:sb1_1.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
                         <!-- ko if: sb1_1.name().length <= 4 -->
@@ -119,26 +119,26 @@
                         <!-- /ko -->
                     </td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: sb1_2.name().length > 4 -->
+                        <!-- ko if: sb1_2.name().length > 4  && !race.startsWith('Rice') -->
                         <span data-bind="text:sb1_2.name(),attr:{title:sb1_2.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
-                        <!-- ko if: sb1_2.name().length <= 4 -->
+                        <!-- ko if: sb1_2.name().length <= 4  && !race.startsWith('Rice') -->
                         <img class="img-fluid" src="/static/images/red_button.png" data-bind="text: sb1_2.name,click:$root.editS12">
                         <!-- /ko -->
                     </td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: sb2_1.name().length > 4 -->
+                        <!-- ko if: sb2_1.name().length > 4  && !race.startsWith('Rice') -->
                         <span data-bind="text:sb2_1.name(),attr:{title:sb2_1.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
-                        <!-- ko if: sb2_1.name().length <= 4 -->
+                        <!-- ko if: sb2_1.name().length <= 4  && !race.startsWith('Rice') -->
                         <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_1.name,click:$root.editS21">
                         <!-- /ko -->
                     </td>
                     <td data-bind="class:rowcss" class="text-center">
-                        <!-- ko if: sb2_2.name().length > 4 -->
+                        <!-- ko if: sb2_2.name().length > 4  && !race.startsWith('Rice') -->
                         <span data-bind="text:sb2_2.name(),attr:{title:sb2_2.email}" data-toggle="tooltip" data-placement="top"></span>
                         <!-- /ko -->
-                        <!-- ko if: sb2_2.name().length <= 4 -->
+                        <!-- ko if: sb2_2.name().length <= 4  && !race.startsWith('Rice') -->
                         <img class="img-fluid" src="/static/images/yellow_button.png" data-bind="text: sb2_2.name,click:$root.editS22">
                         <!-- /ko -->
                     </td>
