@@ -101,6 +101,7 @@ function RcCrewGrid(staffJson) {
     *******************************************************************************/
     self.formCancel = function (a, b) {
         $('#myModal').hide();
+        $('#certModal').hide();
         $('#badEmailModal').hide();
     }
 

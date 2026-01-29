@@ -110,13 +110,14 @@ sub update_rc_sheet :Local {
     if(scalar(@{$rv}) > 0){
         #If the email was valid then we need to check and seee if we have the powerboat trainign and NY boating cert info
         #That info is already in the 'rv' response.
+        $dbh->do($updateStaffingSql);  #FIXME - handle the error
         if(!defined $rv->[0][7] || $rv->[0][7]==0 || !defined $rv->[0][8] || $rv->[0][8]==0){
             $respBody="MISSING_CERTS";
         }
-        else{
-            #All good, update the staffing table
-            $dbh->do($updateStaffingSql);
-        }
+        # else{
+        #     #All good, update the staffing table
+        #     $dbh->do($updateStaffingSql);
+        # }
     }
     else{
         $respBody="BAD_EMAIL";
@@ -132,6 +133,7 @@ sub update_rc_cert :Local {
 
 
     my $h = JSON::decode_json($q);
+# $DB::single=1;    
     my $sql = sprintf('UPDATE Slsc.members SET pbsafety="%s",nycert="%s" WHERE email1="%s"',
                 $h->{pbsafety},$h->{nycert},$h->{email} );                
     $c->log->debug("SQL => $sql\n");
@@ -149,15 +151,8 @@ sub update_rc_cert :Local {
     }
     my $dbh;
     $dbh=$rv->{dbh};
+    $dbh->do($sql);  #FIXME - handle the error
     my $respBody="OK";
-
-    if(scalar(@{$rv}) > 0){
-        $dbh->do($sql);
-    }
-    else{
-        $respBody="CERT_ERROR";
-    }
-
     $c->response->body($respBody);
 }
 
