@@ -45,14 +45,13 @@ sub index :Path :Args(0) {
     $c->response->status(404);
 }
 
-sub zignupsheet :Local {
+sub signupsheet :Local {
     my ( $self, $c ) = @_;
     $c->stash->{template} = 'wait.tt2';
 }
 
-sub signupsheet :Local {
+sub zignupsheet :Local {
     my ( $self, $c ) = @_;
-    $DB::single=1;
     #create a handle to MySQL
     my $dbInfo = {
         'dbname'=>'Slsc',
@@ -85,9 +84,9 @@ sub update_rc_sheet :Local {
 
 
     my $h = JSON::decode_json($q);
-    my $sql = sprintf('UPDATE Slsc.staffing SET %s="%s",%s="%s" WHERE rcdate="%s"',
+    my $updateStaffingSql = sprintf('UPDATE Slsc.staffing SET %s="%s",%s="%s" WHERE rcdate="%s"',
                 $h->{namecol},$h->{nameval},$h->{emailcol},$h->{emailval},$h->{ymd} );
-    $c->log->debug("SQL => $sql\n");
+    $c->log->debug("SQL => $updateStaffingSql\n");
 
     #create a handle to MySQL
     my $dbInfo = {
@@ -107,12 +106,56 @@ sub update_rc_sheet :Local {
     my $esql = sprintf('SELECT * FROM Slsc.members WHERE email1="%s"',$h->{'emailval'});
     $rv = $dbh->selectall_arrayref($esql);
     my $respBody="OK";
-$DB::single=1;
+# $DB::single=1;
+    if(scalar(@{$rv}) > 0){
+        #If the email was valid then we need to check and seee if we have the powerboat trainign and NY boating cert info
+        #That info is already in the 'rv' response.
+        if(!defined $rv->[0][7] || $rv->[0][7]==0 || !defined $rv->[0][8] || $rv->[0][8]==0){
+            $respBody="MISSING_CERTS";
+        }
+        else{
+            #All good, update the staffing table
+            $dbh->do($updateStaffingSql);
+        }
+    }
+    else{
+        $respBody="BAD_EMAIL";
+    }
+
+    $c->response->body($respBody);
+}
+
+sub update_rc_cert :Local {
+    my ( $self, $c ) = @_;
+    my $q = $c->request->parameters->{query};
+    $c->log->debug("Received => $q\n");
+
+
+    my $h = JSON::decode_json($q);
+    my $sql = sprintf('UPDATE Slsc.members SET pbsafety="%s",nycert="%s" WHERE email1="%s"',
+                $h->{pbsafety},$h->{nycert},$h->{email} );                
+    $c->log->debug("SQL => $sql\n");
+
+    #create a handle to MySQL
+    my $dbInfo = {
+        'dbname'=>'Slsc',
+        'url' => $c->config->{dbURL},
+        'user' => $c->config->{dbUser},
+        'pw' => $c->config->{dbPW}
+    };
+    my $rv = DbUtils::dbConnect($dbInfo);
+    if($rv->{exitCode} == 1){
+        return;
+    }
+    my $dbh;
+    $dbh=$rv->{dbh};
+    my $respBody="OK";
+
     if(scalar(@{$rv}) > 0){
         $dbh->do($sql);
     }
     else{
-        $respBody="BAD EMAIL";
+        $respBody="CERT_ERROR";
     }
 
     $c->response->body($respBody);

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1>SLSC Race Committee Sign Up Sheet for 2025</h1>
+            <h1>SLSC Race Committee Sign Up Sheet for 2026</h1>
             <hr />
             <p>Click on any button and use the popup form to enter your name and email.
                 <b>Once you have saved the data it cannot be changed.</b>
@@ -13,6 +13,70 @@
         </div>
     </div>
     <div class="row">
+    
+        <div class="modal" id="certModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" data-bind="text:title"> </h4>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <p>
+                            <ul>
+                            <li>Please supply the powerboat training course and NY Boating Certificate info below.</li>
+                            <li>If you have not received the club power boat training course then we ask you to take
+                            the 45min course ahead of your race duty.</li> 
+                            <li>If you do not have the NY Boating certificate then you cannot operate the boat but you
+                            can assist the driver as crew.</li>
+                            </ul>
+                        </p>
+                        <table class="table table-primary table-striped">
+                            <tr>
+                                <td>
+                                    <label>When did you take the club power boat training course?</label>
+                                    <select class="form-control" data-bind="value: pbsafety">
+                                        <option value="">Select...</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">Before 2020</option>
+                                        <option value="0">Never</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>When did you get your NY Boating Certificate?</label>
+                                    <select class="form-control" data-bind="value: nycert">
+                                        <option value="">Select...</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">Before 2020</option>
+                                        <option value="0">Never</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bind="click:certSave">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bind="click:formCancel">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    
         <div class="modal" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">

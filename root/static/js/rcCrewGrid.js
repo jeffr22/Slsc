@@ -7,6 +7,9 @@ function RcCrewGrid(staffJson) {
     self.username = ko.observable("");
     self.useremail = ko.observable("");
     self.title = ko.observable("");
+    self.pbsafety = ko.observable("");
+    self.nycert = ko.observable("");
+
     self.position = "";
     self.bookDate = "";
     self.aRcCrews = ko.observableArray([]);
@@ -66,34 +69,77 @@ function RcCrewGrid(staffJson) {
         $('#myModal').show();
     }
 
-    self.formSave = function(a,b){
+   
+    /******************************************************************************
+                Form  Powerboat Safety and NY Boating Cert Handler 
+    *******************************************************************************/
+    self.certSave = function (a, b) {
         $('#myModal').hide();
         let q = {};
-        q['ymd'] = self.dateToYMD(a.date);
-        q['namecol'] = self.sqlcol+'name';
-        q['nameval'] = a.username();
-        q['emailcol'] = self.sqlcol+'email';
-        q['emailval'] = a.useremail();
+        q['pbsafety'] = self.pbsafety();
+        q['nycert'] = self.nycert();
+        q['email'] = self.useremail();
         let jdata = JSON.stringify(q);
         $.ajax({
-            url: '/update_rc_sheet?query=' + encodeURI(jdata),
-            success: function(resp){
+            url: '/update_rc_cert?query=' + encodeURI(jdata),
+            success: function (resp) {
                 if (resp == "OK")
                     location.reload();
-                if (resp == "BAD EMAIL"){
-                    console.log("BAD EMAIL");
-                    $('#badEmailModal').show();
-                }
+                // if (resp == "BAD EMAIL") {
+                //     console.log("BAD EMAIL");
+                //     $('#badEmailModal').show();
+                // }
             },
             error: function (err) {
-                console.error("Rx err %O",err);
+                console.error("Rx err %O", err);
             }
         })
     }
 
+    /******************************************************************************
+                Cancel Form Handler
+    *******************************************************************************/
     self.formCancel = function (a, b) {
         $('#myModal').hide();
         $('#badEmailModal').hide();
+    }
+
+    /******************************************************************************
+               Name and Email Form Handler 
+    *******************************************************************************/
+    self.formSave = function (a, b) {
+        $('#myModal').hide();
+        let q = {};
+        q['ymd'] = self.dateToYMD(a.date);
+        q['namecol'] = self.sqlcol + 'name';
+        q['nameval'] = a.username();
+        q['emailcol'] = self.sqlcol + 'email';
+        q['emailval'] = a.useremail();
+        let jdata = JSON.stringify(q);
+        $.ajax({
+            url: '/update_rc_sheet?query=' + encodeURI(jdata),
+            success: function (resp) {
+                switch(resp) {
+                    case "OK":
+                        location.reload();
+                        break;
+                    case "MISSING_CERTS":
+                        console.log("MISSING CERTS");
+                        self.title("Missing Certifications for: " + self.username());
+                        $('#certModal').show();
+                        break;
+                    case "BAD_EMAIL":
+                        console.log("BAD EMAIL");
+                        $('#badEmailModal').show();
+                        break;
+                    default:
+                        console.log("Unknown response: %s", resp);
+                }
+            },
+            error: function (err) {
+                console.error("Rx err %O", err);
+            }
+        })
     }
 
     //Convert Wed May 8 => 2024-05-08

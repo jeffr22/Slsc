@@ -1,8 +1,8 @@
 //These are the Sunday and Wednesday race definitions - need to come from a config file
 //The format of each race series if ['name', 'start month', 'start day'], so ['Robinson',7,14]
 //defines the Robinson series start on July 14th.
-const sunSeries = [['Practice', 5, 5], ['Zephyr', 5, 25], ['Robinson', 7, 13], ['Kaydeross', 8, 31]];
-const wedSeries = [['Practice', 5, 5], ['Manning', 5, 28], ['Rice', 9, 3]];
+const sunSeries = [['Practice', 5, 17], ['Zephyr', 5, 24], ['Robinson', 7, 12], ['Kaydeross', 8, 30]];
+const wedSeries = [['Practice', 5, 20], ['Manning', 5, 27], ['Rice', 9, 2]];
 var raceCount = { 'Practice': 0, 'Zephyr': 0, 'Robinson': 0, 'Kaydeross': 0, 'Manning':0, 'Rice':0 };
 
 class RcCrew {
@@ -48,6 +48,8 @@ class RcCrew {
         self.sb2_2 = {};
         self.sb2_2.name = ko.observable(aData[11]);
         self.sb2_2.email = ko.observable(aData[12]);
+        // self.pbsafety = ko.observable("");
+        // self.nycert = ko.observable("");
 
         return self;
     }

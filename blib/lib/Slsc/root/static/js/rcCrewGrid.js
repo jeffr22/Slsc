@@ -7,21 +7,25 @@ function RcCrewGrid(staffJson) {
     self.username = ko.observable("");
     self.useremail = ko.observable("");
     self.title = ko.observable("");
+    //New train and cert data added Jan 2026
+    self.pbsafety = ko.observable("");
+    self.nycert = ko.observable("");
+
     self.position = "";
     self.bookDate = "";
     self.aRcCrews = ko.observableArray([]);
     //Loop through the staff data to create an array of staff objects
     let staffArray = JSON.parse(staffJson);
-    for(let k=0; k < staffArray.length; k++){
+    for (let k = 0; k < staffArray.length; k++) {
         let tmpObj = new RcCrew(staffArray[k]);
         self.aRcCrews.push(tmpObj);
     }
 
-    self.editCapt = function(row,evt){
-        console.log("Captain on %s",row.date);
-        self.position="Captain";
-        self.sqlcol='rc_';
-        self.date=row.date;
+    self.editCapt = function (row, evt) {
+        console.log("Captain on %s", row.date);
+        self.position = "Captain";
+        self.sqlcol = 'rc_';
+        self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
         $('#myModal').show();
     }
@@ -35,7 +39,7 @@ function RcCrewGrid(staffJson) {
     }
     self.editS11 = function (row, evt) {
         console.log("S11 on %s", row.date);
-        self.position = "Safety Boat 1A";
+        self.position = "SBoat 1A";
         self.sqlcol = 's1_1_';
         self.date = row.date;
         self.title("Booking for: " + self.position + " on: " + self.date);
@@ -66,38 +70,79 @@ function RcCrewGrid(staffJson) {
         $('#myModal').show();
     }
 
-    self.formSave = function(a,b){
+    /******************************************************************************
+                Form  Powerboat Safety and NY Boating Cert Handler 
+    *******************************************************************************/
+    self.certSave = function (a, b) {
         $('#myModal').hide();
         let q = {};
-        q['ymd'] = self.dateToYMD(a.date);
-        q['namecol'] = self.sqlcol+'name';
-        q['nameval'] = a.username();
-        q['emailcol'] = self.sqlcol+'email';
-        q['emailval'] = a.useremail();
+        q['pbsafety'] = self.pbsafety();
+        q['nycert'] = self.nycert();
+        q['email'] = self.useremail();
         let jdata = JSON.stringify(q);
         $.ajax({
-            url: '/update_rc_sheet?query=' + encodeURI(jdata),
-            success: function(resp){
+            url: '/update_rc_cert?query=' + encodeURI(jdata),
+            success: function (resp) {
                 if (resp == "OK")
                     location.reload();
-                if (resp == "BAD EMAIL"){
-                    console.log("BAD EMAIL");
-                    $('#badEmailModal').show();
-                }
+                // if (resp == "BAD EMAIL") {
+                //     console.log("BAD EMAIL");
+                //     $('#badEmailModal').show();
+                // }
             },
             error: function (err) {
-                console.error("Rx err %O",err);
+                console.error("Rx err %O", err);
             }
         })
     }
 
+    /******************************************************************************
+                Cancel Form Handler
+    *******************************************************************************/
     self.formCancel = function (a, b) {
         $('#myModal').hide();
         $('#badEmailModal').hide();
     }
 
+    /******************************************************************************
+               Name and Email Form Handler 
+    *******************************************************************************/
+    self.formSave = function (a, b) {
+        $('#myModal').hide();
+        let q = {};
+        q['ymd'] = self.dateToYMD(a.date);
+        q['namecol'] = self.sqlcol + 'name';
+        q['nameval'] = a.username();
+        q['emailcol'] = self.sqlcol + 'email';
+        q['emailval'] = a.useremail();
+        let jdata = JSON.stringify(q);
+        $.ajax({
+            url: '/update_rc_sheet?query=' + encodeURI(jdata),
+            success: function (resp) {
+                switch(resp) {
+                    case "OK":
+                        location.reload();
+                        break;
+                    case "MISSING_CERTS":
+                        console.log("MISSING CERTS");
+                        $('#certModal').show();
+                        break;
+                    case "BAD_EMAIL":
+                        console.log("BAD EMAIL");
+                        $('#badEmailModal').show();
+                        break;
+                    default:
+                        console.log("Unknown response: %s", resp);
+                }
+            },
+            error: function (err) {
+                console.error("Rx err %O", err);
+            }
+        })
+    }
+
     //Convert Wed May 8 => 2024-05-08
-    self.dateToYMD = function(formattedDate) {
+    self.dateToYMD = function (formattedDate) {
         const monthsMap = {
             'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
             'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
