@@ -110,14 +110,22 @@ sub update_rc_sheet :Local {
     if(scalar(@{$rv}) > 0){
         #If the email was valid then we need to check and seee if we have the powerboat trainign and NY boating cert info
         #That info is already in the 'rv' response.
-        $dbh->do($updateStaffingSql);  #FIXME - handle the error
-        if(!defined $rv->[0][7] || $rv->[0][7]==0 || !defined $rv->[0][8] || $rv->[0][8]==0){
+        eval{
+            $dbh->do($updateStaffingSql) or die $dbh->errstr;
+        };
+    
+        if($@){
+            $c->log->debug("SQL ERROR => $@\n");
+            $c->response->body($respBody)="SQL_ERROR: $@";
+            return
+        } 
+    
+        if(!defined $rv->[0][7] || !defined $rv->[0][8]){
+            # [7] is the pbsafety column
+            # [8] is the nycert column
+            # If these are NULL then the member has never answered the certification questions
             $respBody="MISSING_CERTS";
         }
-        # else{
-        #     #All good, update the staffing table
-        #     $dbh->do($updateStaffingSql);
-        # }
     }
     else{
         $respBody="BAD_EMAIL";
@@ -149,10 +157,19 @@ sub update_rc_cert :Local {
     if($rv->{exitCode} == 1){
         return;
     }
+    my $respBody="OK";
     my $dbh;
     $dbh=$rv->{dbh};
-    $dbh->do($sql);  #FIXME - handle the error
-    my $respBody="OK";
+    eval{
+        $dbh->do($sql) or die $dbh->errstr;
+    };
+    if($@){
+        $c->log->debug("SQL ERROR => $@\n");
+        $respBody="SQL_ERROR: $@";
+    } else {
+        $respBody="OK";
+    }
+    
     $c->response->body($respBody);
 }
 
