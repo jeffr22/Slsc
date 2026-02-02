@@ -151,7 +151,7 @@
 
 <script src="/static/js/rcCrewObj.js" type="text/javascript"></script>
 <script src="/static/js/rcCrewGrid.js" type="text/javascript"></script>
-<script type="" text/javascript">
+<script type="text/javascript">
     function loaded(){
         rcCrewViewModel = new RcCrewGrid('[%table_json%]');
         ko.applyBindings(rcCrewViewModel);
