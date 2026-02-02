@@ -103,7 +103,7 @@ sub update_rc_sheet :Local {
     $dbh=$rv->{dbh};
 
     #Check the email is valid
-    my $esql = sprintf('SELECT * FROM Slsc.members WHERE email1="%s"',$h->{'emailval'});
+    my $esql = sprintf('SELECT * FROM Slsc.clubmembers WHERE email="%s"',$h->{'emailval'});
     $rv = $dbh->selectall_arrayref($esql);
     my $respBody="OK";
 # $DB::single=1;
@@ -119,8 +119,10 @@ sub update_rc_sheet :Local {
             $c->response->body($respBody)="SQL_ERROR: $@";
             return
         } 
-    
-        if(!defined $rv->[0][7] || !defined $rv->[0][8]){
+        # [12] = DOB
+        # [13] = nycert
+        # [14] = pbsafety
+        if(!defined $rv->[0][13] || !defined $rv->[0][14]){
             # [7] is the pbsafety column
             # [8] is the nycert column
             # If these are NULL then the member has never answered the certification questions
@@ -142,8 +144,7 @@ sub update_rc_cert :Local {
 
     my $h = JSON::decode_json($q);
 # $DB::single=1;    
-    my $sql = sprintf('UPDATE Slsc.members SET pbsafety="%s",nycert="%s" WHERE email1="%s"',
-                $h->{pbsafety},$h->{nycert},$h->{email} );                
+    my $sql = sprintf('UPDATE Slsc.clubmembers SET pbsafety="%s",nycert="%s" WHERE email="%s"', $h->{pbsafety},$h->{nycert},$h->{email} );                
     $c->log->debug("SQL => $sql\n");
 
     #create a handle to MySQL
